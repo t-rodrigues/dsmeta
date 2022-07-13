@@ -1,1 +1,17 @@
-
+spring:
+  application:
+    name: dsmeta
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: 'sa'
+    password: ''
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
