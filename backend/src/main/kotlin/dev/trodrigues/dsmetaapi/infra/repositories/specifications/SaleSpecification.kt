@@ -13,30 +13,27 @@ object SaleSpecification {
             val predicates = mutableListOf<Predicate>()
 
             saleFilter.minDate?.let {
+                val minDate = convertToLocalDate(it)
                 predicates.add(
-                    cb.greaterThanOrEqualTo(root.get("date"), convertToLocalDate(it))
+                    cb.greaterThanOrEqualTo(root.get("date"), minDate ?: LocalDate.now().minusYears(1))
                 )
             }
 
             saleFilter.maxDate?.let {
                 predicates.add(
-                    cb.lessThanOrEqualTo(root.get("date"), convertToLocalDate(it))
+                    cb.lessThanOrEqualTo(root.get("date"), convertToLocalDate(it) ?: LocalDate.now())
                 )
             }
-
-//            predicates.add(
-//                cb.desc(root.get("amount"))
-//            )
 
             cb.and(*predicates.toTypedArray())
         }
     }
 
-    private fun convertToLocalDate(date: String): LocalDate {
+    private fun convertToLocalDate(date: String): LocalDate? {
         return try {
             LocalDate.parse(date)
         } catch (exception: Exception) {
-            LocalDate.now()
+            null
         }
     }
 }

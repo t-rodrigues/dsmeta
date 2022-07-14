@@ -15,3 +15,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  twilio:
+    account-sid: ${TWILIO_ACCOUNT_SID}
+    auth-token: ${TWILIO_AUTH_TOKEN}
+    phone-from: ${TWILIO_PHONE_FROM}
+    phone-to: ${TWILIO_PHONE_TO}
