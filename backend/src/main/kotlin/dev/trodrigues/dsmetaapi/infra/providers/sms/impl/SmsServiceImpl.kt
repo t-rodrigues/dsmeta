@@ -24,7 +24,7 @@ class SmsServiceImpl(
         val from = PhoneNumber(twilioPhoneFrom)
         val to = PhoneNumber(twilioPhoneTo)
         val date = "${sale.date?.monthValue}/${sale.date?.year}"
-        val text = "O vendedor ${sale.sellerName} na data $date teve um total de R$%.2f em vendas".format(sale.amount)
+        val text = "O vendedor ${sale.sellerName} na data $date teve um total de R$ ${sale.amount} em vendas"
         val message = Message.creator(to, from, text).create()
         println(message.sid)
     }
