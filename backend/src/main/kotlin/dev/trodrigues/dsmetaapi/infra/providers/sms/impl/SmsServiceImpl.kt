@@ -17,6 +17,10 @@ class SmsServiceImpl(
     private val saleRepository: SaleRepository
 ) : SmsService {
 
+    companion object {
+        const val MESSAGE_TEMPLATE = "O vendedor %s na data %s teve um total de R$ %.2f em vendas"
+    }
+
     override fun sendSms(saleId: Long) {
         val sale = saleRepository.findById(saleId).orElseThrow { IllegalArgumentException() }
         Twilio.init(twilioAccountSid, twilioAuthToken)
@@ -24,8 +28,7 @@ class SmsServiceImpl(
         val from = PhoneNumber(twilioPhoneFrom)
         val to = PhoneNumber(twilioPhoneTo)
         val date = "${sale.date?.monthValue}/${sale.date?.year}"
-        val text =
-            "O vendedor %s na data %s teve um total de R$ %.2f em vendas".format(sale.sellerName, date, sale.amount)
+        val text = MESSAGE_TEMPLATE.format(sale.sellerName, date, sale.amount)
         val message = Message.creator(to, from, text).create()
         println(message.sid)
     }
