@@ -18,23 +18,16 @@ class SecurityConfig {
         httpSecurity.headers().frameOptions().disable()
         httpSecurity.cors().and().csrf().disable()
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        httpSecurity.authorizeHttpRequests { auth ->
-            auth.anyRequest().permitAll()
-        }
+        httpSecurity.authorizeHttpRequests { auth -> auth.anyRequest().permitAll() }
         return httpSecurity.build()
     }
 
     @Bean
-    fun corsConfiguratjionSource(): UrlBasedCorsConfigurationSource {
+    fun corsConfigurationSource(): UrlBasedCorsConfigurationSource {
         val configuration = CorsConfiguration().applyPermitDefaultValues()
-        configuration.apply {
-            allowedMethods = listOf("POST", "GET", "PUT", "DELETE", "OPTIONS")
-        }
-        val urlSource: UrlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
-        urlSource.apply {
-            registerCorsConfiguration("/**", configuration)
-        }
+        configuration.apply { allowedMethods = listOf("POST", "GET", "PUT", "DELETE", "OPTIONS") }
+        val urlSource = UrlBasedCorsConfigurationSource()
+        urlSource.apply { registerCorsConfiguration("/**", configuration) }
         return urlSource
     }
-
 }
